@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>NYC PollenScape</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/grayscale.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="icon" type="img/png" href="img/favicon.png">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>
+    <script href="js/full_screen.js"></script>
+   
+
+    <style>
+        .lorem {
+            font-style: italic;
+            color: #AAA;
+        }
+    </style>
+
+
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger text-uppercase m-0" href="#page-top">NYC PollenScape</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">Map</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#projects">Analysis</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">Publication</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead">
+      <div class="container d-flex h-100 align-items-center" style="width: 100% margin: auto;">
+        <div class="mx-auto text-center" style="margin: auto;">
+          <h1 class="text-uppercase-white" style="opacity:1">NYC PollenScape</h1>
+          <h5 style="color:white; font-weight:200; opacity: 0.8; width: 100%; margin:auto;">We measure localized environmental health impact of 600,000+ street trees with 130+ species in NYC.</h5>
+          <br></br>
+          <a href="#about" class="btn btn-primary js-scroll-trigger" style="margin:auto;">Start Exploring!</a>
+          <!-- <br></br> -->
+          <!-- <h5 style="font-size:0.8em; color:white; opacity: 0.6; margin:auto;">The Impact of Urban Street Tree Species on Air Quality and Respiratory Illness: A Spatial Analysis of Large-Scale, High Resolution Urban Data.</h5> -->
+        </div>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" style=" background: -webkit-gradient(linear, left top, left bottom, from(#161616), color-stop(75%, rgba(22, 22, 22, 0.9)), to(rgba(22, 22, 22, 0.8)));
+  background: linear-gradient(to bottom, #161616 0%, rgba(22, 22, 22, 0.9) 75%, rgba(22, 22, 22, 0.8) 100%);">
+      <div class="container" style="width: 100%;">
+        <div class="row" style="width: 100%; margin: auto;">
+          <div style="font-size:12px; color: white; margin: auto;">NYC Street Tree colored by pollen allergenicity. <b>Pan</b> and <b>zoom</b> to see street trees in NYC. <b>Click</b> different seasons to check pollen activity. <b>Click</b> NEIGHBORHOOD for neighborhood allergenicity summary.</div>
+          <div class="w3-show-inline-block" style="margin: auto;">
+
+              <div class="w3-bar" style="margin: auto;">
+                <button class="btn-primary spring">Spring</button>
+                <button class="btn-primary summer">Summer</button>
+                <button class="btn-primary fall">Fall</button>
+                <button class="btn-primary winter">Winter</button>
+                <button class="btn-primary citywide">Citywide</button>
+                <button class="btn-primary neighborhood">Neighborhood</button>
+                <button class="btn-primary" id="demo" onclick="getLocation()">Locate me</button>
+                <button class="btn-primary reset">Reset</button>
+              </div>
+          </div>
+        
+          <div class="main"  id="map" style="width: 100%; height: 600px; margin:auto"> </div>
+          
+        </div>
+      </div>
+      
+    </section>
+
+
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section bg-light">
+      <div class="container">
+
+        <!-- Featured Project Row -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
+            <img class="img-fluid mb-3 mb-lg-0" src="img/Trees_diagram.jpg" width="95%" alt="">
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h5 style="color:black">Data Integration</h5>
+              <p class="text-black-50 mb-0">We create an extensive database of information on street trees, air quality, and respiratory illness (asthma hospitalization rate), as well as ancillary data including neighborhood demographic and land use profiles. The NYC tree census dataset (cleaned n=652,169) provides each street tree’s location (latitude and longitude), species, diameter at breast height, surrounding sidewalk condition (during survey), Neighborhood Tabulation Area (NTA), and zip code.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project One Row -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
+            <!-- <svg width="90%" height="400px"></svg> -->
+            <!-- <svg id="chart" width="600" height="400" viewBox="-10 -10 600 400" preserveAspectRatio="xMidYMid meet"></svg> -->
+            <iframe  id="container" width="95%" height="350" frameborder="0" src="https://public.tableau.com/views/viz_map_tree/Dashboard1?:embed=y&:display_count=yes&publish=yes&:toolbar=no&:showVizHome=no:embed=n&:showShareOptions=false"></iframe>
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h5 style="color:black">Tree Species</h5>
+              <p class="text-black-50 mb-0">The top 20 species represent more than 80% of all street trees and include many species with moderate or severe pollen allergen. Maple (Acer), linden (Tilia), and oak (Quercus) are the most popular genera with moderate or severe pollen allergenicity.<br></br>Hover on the bar chart to see where allergenic species are located.</p>
+            </div>
+          </div>
+        </div>
+
+        
+      <!-- Project Two Row -->
+         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
+            <img class="img-fluid" src="img/tree_seasons.png" width="95%" height="100%" margin-left= "auto" margin-right="auto" alt="">
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h5 style="color:black">Spatial-temporal Pollen Patterns</h5>
+              <p class="text-black-50 mb-0"> Spring is the peak season with the most active pollen across the city as a whole, while there are more concentrated hot-spots of pollen activity during the summer months. Manhattan has relatively less pollen activity, in part due to the fewer number of street trees. Brooklyn and Queens experience pollen outbreaks during the spring and summer, while the Bronx has its most intense pollen activity during the fall.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Two Row -->
+         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7" >
+          <!-- <img class="img-fluid" src="img/result.png" width="90%" height="90%" alt=""> -->
+            <iframe  width="95%" height="350" frameborder="0" src="https://public.tableau.com/views/asthma_viz_1/Dashboard1?:embed=y&:display_count=yes&publish=yes&:toolbar=no&:showVizHome=no:embed=n&:showShareOptions=false"></iframe>
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h5 style="color:black">Spatial Disparities of Environmental Health</h5>
+              <p class="text-black-50 mb-0">Exploratory data visualization reveal the spatial disparity of asthma prevalence and related environmental factors across neighborhoods in NYC. From left to right: (1) Asthma Emergency Department (ED) visits per thousand population by zip code; (2) Annual average air quality (PM 2.5 level); (3) Percentage of vulnerable population (age <=17 or >=65).</p>
+            </div>
+          </div>
+        </div>
+
+
+         <!-- Project Two Row -->
+         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7" >
+          <!-- <img class="img-fluid" src="img/result.png" width="90%" height="90%" alt=""> -->
+           <a href="https://www.nycgovparks.org/trees/treescount" target="_blank"> <img class="img-fluid" src="img/trees_count.jpg" width="95%" height="100%" margin-left= "auto" margin-right="auto" alt=""></a>
+           <a href="https://www.nycgovparks.org/trees/treescount"  target="_blank"> <small>About NYC Trees Count (Image source: NYC Department of Parks & Recreation)</small></a>
+           
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <p class="text-black-50 mb-0">The availability of data resources from numerous agencies and activities in cities provides new opportunities for improved urban management decision-making and more efficient and equitable services for citizens. This type of hyper-local knowledge could help individuals understand the ecology of their neighborhood and take steps to more effectively manage underlying health conditions. This process requires the collective efforts of city agencies, domain experts, data scientists, and local communities.</p>
+            </div>
+          </div>
+        </div>
+
+
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup" class="signup-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <h3 style="color:white"> Read the complete research published in <i>Health & Place</i>.</h3>
+            <br></br>
+            <a href="https://www.sciencedirect.com/science/article/pii/S135382921830621X" target="_blank"><img src="img/health_place.jpg" width="20%" height="auto" margin-left= "auto" margin-right="auto" alt=""> </img></a>
+            <a href="https://www.sciencedirect.com/science/article/pii/S135382921830621X" target="_blank"><input type="button" class="btn btn-primary mx-auto" value="Full Paper"></a>
+            <br></br>
+            <a style="color:white" href="https://www.sciencedirect.com/science/article/pii/S135382921830621X" target="_blank">
+            For citation: Lai, Yuan, and Constantine E. Kontokosta. "The impact of urban street tree species on air quality and respiratory illness: A spatial analysis of large-scale, high-resolution urban data." Health & Place 56 (2019): 80-87. </a>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id = "contact" class="contact-section bg-black">
+      <div class="container">
+
+        <div class="row">
+
+
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card py-4 h-100">
+              <div class="card-body text-center">
+                <!-- <i class="fas fa-map-marked-alt text-primary mb-2"></i> -->
+                <h4 class="text-uppercase m-0" style="color:black">Authors</h4>
+                <hr class="my-4" style="margin: auto;">
+                <div class="small text-black-50">
+                <a href="https://marroninstitute.nyu.edu/people/yuan-lai" target="_blank"><strong>Yuan Lai</strong></a> is a PhD candidate in the NYU Tandon School of Engineering. He is a research affiliate of Dr.Kontokosta's Civic Analytics Program at the NYU Marron Institute of Urban Management and a member of the Urban Intelligence Lab. He holds a MS in urban informatics from NYU CUSP, a MS in urban planning and BS in landscape architecture.
+                <br></br>
+                <a href="https://marroninstitute.nyu.edu/people/constantine-kontokosta" target="_blank"><strong>Constantine E. Kontokosta</strong></a>, PhD, PE, is an Associate Professor of Urban Science and Planning and Director of the Civic Analytics program at the NYU Marron Institute of Urban Management. He also directs the Urban Intelligence Lab and holds cross-appointments at the Center for Urban Science and Progress (CUSP) and the Dept. of Civil and Urban Engineering.
+                <br></br>      
+                Data visualization and web developement by Yuan Lai.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card py-4 h-100">
+              <div class="card-body text-center">
+               <h4 class="text-uppercase m-0" style="color:black">Urban Intelligence Lab</h4>  
+                <hr class="my-4" style="margin: auto;">
+                 <a href="http://www.urbanintelligencelab.org/" target="_blank"><img src="img/Logo_color.png" width = "40%" height = "40%" style="margin-bottom:10px;"> </img></a>
+                <div class="small text-black-50">
+                  <a href="http://www.urbanintelligencelab.org/" target="_blank">The Urban Intelligence Lab is led by Prof. Constantine E. Kontokosta. Our work is grounded in solving real-world problems, and providing decision-makers with a comprehensive understanding of the inter-relationship between physical infrastructure systems, natural systems, and human systems to engage in long-term sustainability and resilience planning that is based on evidence and rigorous, objective research.</a>
+                </div>
+              </div>
+                <div class="card-body text-center">
+                  <h4 class="text-uppercase m-0" style="color:black">Marron Institute</h4>  
+                  <hr class="my-4" style="margin: auto;">
+                    <a href="https://marroninstitute.nyu.edu/" target="_blank"><img src="img/marron-logo-footer.png" width = "10%" height = "10%" style="margin-bottom:10px;"> </img></a>
+                    <div class="small text-black-50">
+                      <a href="https://marroninstitute.nyu.edu/" target="_blank">The Marron Institute conducts innovative applied research, working with cities to take on critical challenges of urban living.</a>
+                    </div>                 
+                </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card py-4 h-100">
+              <div class="card-body text-center">
+                <h4 class="text-uppercase m-0" style="color:black">Contact Us</h4>  
+                <hr class="my-4" style="margin: auto;">
+                
+                <i class="fas fa-envelope text-primary mb-2"></i>
+                <div class="small text-black-50"><a href="#">UrbanIntelLab@nyu.edu</a></div>
+               
+                <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                <div class="small text-black-50">+1 (646) 997-0500</div>
+                
+                <a href="https://twitter.com/urbanintellab" target="_blank">
+                <i class="fab fa-twitter text-primary mb-2"></i> </a>
+                  <div class="small text-black-50">
+                    <a href="https://twitter.com/urbanintellab" target="_blank">Follow us on Twitter!</a>
+                  </div>
+
+                <br></br>
+
+                <h4 class="text-uppercase m-0" style="color:black">Other Work</h4>  
+                <hr class="my-4" style="margin: auto;">
+                <div class="small text-black-50">
+                <a href="http://www.urbanintelligencelab.org/" target="_blank">http://www.urbanintelligencelab.org</a>
+                <br></br>
+                <a href="https://marroninstitute.nyu.edu/" target="_blank"><img src="img/marron.jpg" width = "70%" height = "70%" style="margin: auto;"> </img></a>
+                <a href="https://engineering.nyu.edu/" target="_blank"><img src="img/tandon_long_color.png" width = "70%" height = "70%" style="margin: auto;"> </img></a>
+
+               
+                </div>
+                
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="social d-flex justify-content-center">
+          <a href="#" class="mx-2">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="mx-2">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="mx-2">
+            <i class="fab fa-github"></i>
+          </a>
+        </div> -->
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+      <div class="container">
+        Copyright &copy; NYU Urban Intelligence Lab 2019
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/grayscale.min.js"></script>
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+    <script src="js/map.js"></script>
+   
+    
+
+  </head>
+  </body>
+</html>
